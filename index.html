@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برنامج سامح - المساعد الصيدلي الذكي</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0284c7">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>💊 برنامج سامح - البحث بالمواصفات الشكلية</h1>
+    <p>البحث عن الصنف عبر اللون، شكل العلبة، والشريط الداخلي</p>
+  </header>
+
+  <main class="container">
+    <section class="card search-section">
+      <h2>🔍 تصفية بالمواصفات</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label>لون العلبة الرئيسي:</label>
+          <input type="text" id="filterColor1" placeholder="مثال: أحمر، أصفر...">
+        </div>
+        <div class="input-group">
+          <label>لون العلبة الثانوي:</label>
+          <input type="text" id="filterColor2" placeholder="مثال: أبيض، أزرق...">
+        </div>
+        <div class="input-group">
+          <label>عدد الأشرطة/الوحدات:</label>
+          <input type="number" id="filterUnits" placeholder="مثال: 2">
+        </div>
+        <div class="input-group">
+          <label>عدد الأقراص في الشريط:</label>
+          <input type="number" id="filterSubUnits" placeholder="مثال: 10">
+        </div>
+        <div class="input-group">
+          <label>نوع/شكل الشريط الداخلي:</label>
+          <input type="text" id="filterType" placeholder="مثال: شريط ألومنيوم، كبسولات...">
+        </div>
+        <div class="input-group">
+          <label>لون الشريط/الوحدة:</label>
+          <input type="text" id="filterInnerColor" placeholder="مثال: فضي، شفاف...">
+        </div>
+      </div>
+      <div class="btn-group">
+        <button id="btnSearch" class="btn btn-primary">بحث سريع</button>
+        <button id="btnReset" class="btn btn-secondary">إعادة ضبط</button>
+        <button id="btnOpenAddModal" class="btn btn-success">+ إضافة دواء جديد للشيت</button>
+      </div>
+    </section>
+
+    <section class="results-section">
+      <h3>النتائج المطابقة (<span id="resultCount">0</span>)</h3>
+      <div id="resultsList" class="results-grid"></div>
+    </section>
+  </main>
+
+  <!-- Modal for Add/Edit -->
+  <div id="itemModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 id="modalTitle">إضافة دواء جديد</h3>
+      <form id="drugForm">
+        <input type="hidden" id="drugId">
+        <div class="form-grid">
+          <input type="text" id="tradeName" placeholder="اسم الدواء (Trade Name)" required>
+          <input type="text" id="activeIngredient" placeholder="المادة الفعالة">
+          <input type="text" id="boxPrimaryColor" placeholder="لون العلبة الرئيسي">
+          <input type="text" id="boxSecondaryColor" placeholder="لون العلبة الثانوي">
+          <input type="text" id="outerShape" placeholder="شكل العلبة / الحجم">
+          <input type="number" id="innerUnitsCount" placeholder="عدد الأشرطة بالعلبة">
+          <input type="number" id="subUnitCount" placeholder="عدد الأقراص بالشريط">
+          <input type="text" id="innerUnitType" placeholder="نوع الوحدة (شريط/أمبول)">
+          <input type="text" id="innerUnitColor" placeholder="لون الشريط/الوحدة">
+          <textarea id="notes" placeholder="ملاحظات وعلامات مميزة" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary style="margin-top:15px;">حفظ في Google Sheets</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
