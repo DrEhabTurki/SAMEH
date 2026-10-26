@@ -55,27 +55,60 @@ function renderProducts(list) {
   });
 }
 
+
+function normalizeText(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ـ/g, "")
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/\s+/g, " ");
+}
+
 function filterProducts() {
-  const c1 = document.getElementById("filterColor1").value.trim().toLowerCase();
-  const c2 = document.getElementById("filterColor2").value.trim().toLowerCase();
+  const c1 = normalizeText(
+    document.getElementById("filterColor1").value
+  );
+  const c2 = normalizeText(
+    document.getElementById("filterColor2").value
+  );
   const units = document.getElementById("filterUnits").value;
   const subUnits = document.getElementById("filterSubUnits").value;
-  const type = document.getElementById("filterType").value.trim().toLowerCase();
-  const innerColor = document.getElementById("filterInnerColor").value.trim().toLowerCase();
+  const type = normalizeText(
+    document.getElementById("filterType").value
+  );
+  const innerColor = normalizeText(
+    document.getElementById("filterInnerColor").value
+  );
 
   const filtered = allProducts.filter(p => {
-    const pC1 = String(p["Box Primary Color (لون العلبة الرئيسي)"] || '').toLowerCase();
-    const pC2 = String(p["Box Secondary Color (لون العلبة الثانوي)"] || '').toLowerCase();
-    const pType = String(p["Inner Unit Type (نوع الوحدة الداخلية)"] || '').toLowerCase();
-    const pInColor = String(p["Inner Unit Color (لون الشريط/الأنبوب)"] || '').toLowerCase();
+    const pC1 = normalizeText(
+      p["Box Primary Color (لون العلبة الرئيسي)"]
+    );
+    const pC2 = normalizeText(
+      p["Box Secondary Color (لون العلبة الثانوي)"]
+    );
+    const pType = normalizeText(
+      p["Inner Unit Type (نوع الوحدة الداخلية)"]
+    );
+    const pInColor = normalizeText(
+      p["Inner Unit Color (لون الشريط/الأنبوب)"]
+    );
 
     return (!c1 || pC1.includes(c1)) &&
-           (!c2 || pC2.includes(c2)) &&
-           (!units || p["Inner Units Count (عدد الشريط/الأمبولات)"] == units) &&
-           (!subUnits || p["Sub-unit Count (عدد الأقراص في الشريط)"] == subUnits) &&
-           (!type || pType.includes(type)) &&
-           (!innerColor || pInColor.includes(innerColor));
+      (!c2 || pC2.includes(c2)) &&
+      (!units ||
+        String(p["Inner Units Count (عدد الشريط/الأمبولات)"]) === units) &&
+      (!subUnits ||
+        String(p["Sub-unit Count (عدد الأقراص في الشريط)"]) === subUnits) &&
+      (!type || pType.includes(type)) &&
+      (!innerColor || pInColor.includes(innerColor));
   });
+
+  renderProducts(filtered);
+}
 
   renderProducts(filtered);
 }
