@@ -1,82 +1,284 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAMEH - Smart Assistant for Medicine Education Help</title>
+
+  <title>SAMEH | المساعد الذكي للتعرّف على الأدوية</title>
+
+  <meta name="theme-color" content="#12463f">
+  <meta name="description"
+        content="SAMEH - مساعد صيدلي للبحث عن الأدوية باستخدام مواصفات العبوة والوحدات.">
+
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0284c7">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
     <h1>💊 SAMEH</h1>
-    <p>Smart Assistant for Medicine Education Help</p>
+    <p>المساعد الذكي للتعرّف على الأدوية</p>
+    <p>ابحث عن الدواء من خلال مواصفات العبوة</p>
   </header>
 
   <main class="container">
-    <section class="card search-section">
-      <h2>🔍 تصفية بالمواصفات</h2>
+
+    <section class="card search-section"
+             aria-labelledby="searchTitle">
+
+      <h2 id="searchTitle">🔍 ابحث عن الدواء</h2>
+
+      <p>
+        أدخل المواصفات التي تتذكرها. يمكنك ترك أي خانة لا تعرفها فارغة.
+      </p>
+
       <div class="form-grid">
+
         <div class="input-group">
-          <label>لون العلبة الرئيسي:</label>
-          <input type="text" id="filterColor1" placeholder="مثال: أحمر، أصفر...">
+          <label for="filterColor1">لون العلبة الرئيسي</label>
+          <input
+            type="text"
+            id="filterColor1"
+            placeholder="مثال: أحمر"
+            autocomplete="off"
+          >
         </div>
+
         <div class="input-group">
-          <label>لون العلبة الثانوي:</label>
-          <input type="text" id="filterColor2" placeholder="مثال: أبيض، أزرق...">
+          <label for="filterColor2">لون العلبة الثانوي</label>
+          <input
+            type="text"
+            id="filterColor2"
+            placeholder="مثال: أبيض"
+            autocomplete="off"
+          >
         </div>
+
         <div class="input-group">
-          <label>عدد الوحدات المتوسطة:</label>
-          <input type="number" id="filterUnits" placeholder="مثال: 2">
+          <label for="filterUnits">عدد الوحدات المتوسطة</label>
+          <input
+            type="number"
+            id="filterUnits"
+            min="0"
+            inputmode="numeric"
+            placeholder="مثال: 2"
+          >
         </div>
+
         <div class="input-group">
-          <label>عدد الوحدات الصغرى:</label>
-          <input type="number" id="filterSubUnits" placeholder="مثال: 10">
+          <label for="filterSubUnits">عدد الوحدات الصغرى</label>
+          <input
+            type="number"
+            id="filterSubUnits"
+            min="0"
+            inputmode="numeric"
+            placeholder="مثال: 10"
+          >
         </div>
+
         <div class="input-group">
-          <label>نوع/شكل الوحده المتوسطه:</label>
-          <input type="text" id="filterType" placeholder="مثال: شريط ألومنيوم، كبسولات...">
+          <label for="filterType">نوع أو شكل الوحدة المتوسطة</label>
+          <input
+            type="text"
+            id="filterType"
+            placeholder="مثال: شريط ألومنيوم"
+            autocomplete="off"
+          >
         </div>
+
         <div class="input-group">
-          <label>لون الوحده المتوسطة:</label>
-          <input type="text" id="filterInnerColor" placeholder="مثال: فضي، شفاف...">
+          <label for="filterInnerColor">لون الوحدة المتوسطة</label>
+          <input
+            type="text"
+            id="filterInnerColor"
+            placeholder="مثال: فضي أو شفاف"
+            autocomplete="off"
+          >
         </div>
+
       </div>
+
       <div class="btn-group">
-        <button id="btnSearch" class="btn btn-primary">بحث سريع</button>
-        <button id="btnReset" class="btn btn-secondary">إعادة ضبط</button>
-        <button id="btnOpenAddModal" class="btn btn-success">+ إضافة دواء جديد للشيت</button>
+        <button
+          type="button"
+          id="btnSearch"
+          class="btn btn-primary"
+        >
+          🔍 ابحث عن الدواء
+        </button>
+
+        <button
+          type="button"
+          id="btnReset"
+          class="btn btn-secondary"
+        >
+          إعادة ضبط البحث
+        </button>
+
+        <button
+          type="button"
+          id="btnOpenAddModal"
+          class="btn btn-success"
+        >
+          + إضافة دواء جديد
+        </button>
       </div>
+
     </section>
 
-    <section class="results-section">
-      <h3>النتائج المطابقة (<span id="resultCount">0</span>)</h3>
+    <section class="results-section"
+             aria-labelledby="resultsTitle">
+
+      <h2 id="resultsTitle">
+        نتائج البحث
+        (<span id="resultCount" aria-live="polite">0</span>)
+      </h2>
+
       <div id="resultsList" class="results-grid"></div>
+
     </section>
+
   </main>
 
-  <!-- Modal for Add/Edit -->
-  <div id="itemModal" class="modal">
+  <!-- نافذة إضافة دواء -->
+  <div
+    id="itemModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
     <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h3 id="modalTitle">إضافة دواء جديد</h3>
+
+      <button
+        type="button"
+        class="close-btn"
+        aria-label="إغلاق النافذة"
+      >
+        &times;
+      </button>
+
+      <h2 id="modalTitle">إضافة دواء جديد</h2>
+
+      <p>أدخل البيانات المتاحة ثم احفظها.</p>
+
       <form id="drugForm">
+
         <input type="hidden" id="drugId">
+
         <div class="form-grid">
-          <input type="text" id="tradeName" placeholder="اسم الدواء (Trade Name)" required>
-          <input type="text" id="activeIngredient" placeholder="المادة الفعالة">
-          <input type="text" id="boxPrimaryColor" placeholder="لون العلبة الرئيسي">
-          <input type="text" id="boxSecondaryColor" placeholder="لون العلبة الثانوي">
-          <input type="text" id="outerShape" placeholder="شكل العلبة / الحجم">
-          <input type="number" id="innerUnitsCount" placeholder="عدد الأشرطة بالعلبة">
-          <input type="number" id="subUnitCount" placeholder="عدد الأقراص بالشريط">
-          <input type="text" id="innerUnitType" placeholder="نوع الوحدة (شريط/أمبول)">
-          <input type="text" id="innerUnitColor" placeholder="لون الشريط/الوحدة">
-          <textarea id="notes" placeholder="ملاحظات وعلامات مميزة" rows="3"></textarea>
+
+          <div class="input-group">
+            <label for="tradeName">اسم الدواء</label>
+            <input
+              type="text"
+              id="tradeName"
+              placeholder="الاسم التجاري"
+              required
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="activeIngredient">المادة الفعالة</label>
+            <input
+              type="text"
+              id="activeIngredient"
+              placeholder="اسم المادة الفعالة"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="boxPrimaryColor">لون العلبة الرئيسي</label>
+            <input
+              type="text"
+              id="boxPrimaryColor"
+              placeholder="مثال: أبيض"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="boxSecondaryColor">لون العلبة الثانوي</label>
+            <input
+              type="text"
+              id="boxSecondaryColor"
+              placeholder="مثال: أخضر"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="outerShape">شكل العلبة أو حجمها</label>
+            <input
+              type="text"
+              id="outerShape"
+              placeholder="وصف شكل العبوة"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="innerUnitsCount">عدد الأشرطة داخل العلبة</label>
+            <input
+              type="number"
+              id="innerUnitsCount"
+              min="0"
+              inputmode="numeric"
+              placeholder="مثال: 2"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="subUnitCount">عدد الأقراص بالشريط</label>
+            <input
+              type="number"
+              id="subUnitCount"
+              min="0"
+              inputmode="numeric"
+              placeholder="مثال: 10"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="innerUnitType">نوع الوحدة</label>
+            <input
+              type="text"
+              id="innerUnitType"
+              placeholder="شريط أو أمبول أو كبسولة"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="innerUnitColor">لون الشريط أو الوحدة</label>
+            <input
+              type="text"
+              id="innerUnitColor"
+              placeholder="وصف اللون"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="notes">ملاحظات وعلامات مميزة</label>
+            <textarea
+              id="notes"
+              rows="3"
+              placeholder="أي تفاصيل إضافية"
+            ></textarea>
+          </div>
+
         </div>
-        <button type="submit" class="btn btn-primary style="margin-top:15px;">حفظ في Google Sheets</button>
+
+        <div class="btn-group">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-top: 15px;"
+          >
+            حفظ البيانات
+          </button>
+        </div>
+
       </form>
+
     </div>
   </div>
 
