@@ -107,8 +107,8 @@ function filterProducts() {
       (!innerColor || pInColor.includes(innerColor));
   });
 
-  renderProducts(filtered);
-}
+  
+
 
   renderProducts(filtered);
 }
