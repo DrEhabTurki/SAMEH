@@ -4,7 +4,9 @@ if (!localStorage.getItem('sameh_script_url')) {
 }
 
 // ضع هنا رابط Web App الخاص بـ Google Apps Script بعد النشر
-const API_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+const API_URL = localStorage.getItem('sameh_script_url') ||
+  'https://script.google.com/macros/s/AKfycbx71k4Gpo_Je1_cLtxPJiDMq7nEKk52nJ-L99AQeA5_4cymMEnwdGJjUXdIQF5swaoo/exec';
 
 let allProducts = [];
 
